@@ -1,12 +1,12 @@
 {
   "name": "indexed-db-cache",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Javascript object that provides an interface to caching objects in IndexDB. Uses UMD to wrap the object",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/karma/bin/karma start"
   },
-  "repository": "git@github.com:sslash/indexedDBCache.git",
+  "repository": "http://github.com/sslash/indexedDBCache",
   "keywords": [
     "JavaScript",
     "IndexDB"
