@@ -1,5 +1,5 @@
 {
-  "name": "indexedDBCache",
+  "name": "indexed-db-cache",
   "version": "0.0.0",
   "description": "Javascript object that provides an interface to caching objects in IndexDB. Uses UMD to wrap the object",
   "main": "index.js",
