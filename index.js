@@ -9,9 +9,10 @@
 }(this, function () {
 
 
-    var IndexDBCache = function () {
+    var IndexDBCache = function (opts) {
+        opts = opts || {};
+        this.version = opts.version || 1;
 
-        
         this._initStores = function (db, stores) {
             stores.forEach(function(store) {
                 var opts = store.keyPath ? {keyPath : store.keyPath} : {};
@@ -33,7 +34,7 @@
             if (!dbName) { throw new Error('DB must have a dbName'); }
 
             this.dbName = dbName;
-            var idb = indexedDB.open(this.dbName, 1);
+            var idb = indexedDB.open(this.dbName, this.version);
 
             idb.onupgradeneeded = function(e) {
                 if ( e.oldVersion < 1 ) {
@@ -45,7 +46,7 @@
 
         this.put = function (store, obj, next) {
 
-            var idb = indexedDB.open(this.dbName, 1);
+            var idb = indexedDB.open(this.dbName, this.version);
 
             idb.onsuccess = function(evt) {
                 idb.result.transaction([store], 'readwrite')
@@ -59,7 +60,7 @@
 
 
         this.find = function (store, next) {
-            var idb = indexedDB.open(this.dbName, 1);
+            var idb = indexedDB.open(this.dbName, this.version);
 
             idb.onsuccess = function(evt) {
                 var items = [];
@@ -80,7 +81,7 @@
         };
 
         this.findOne = function (store, key, next) {
-            var idb = indexedDB.open(this.dbName, 1);
+            var idb = indexedDB.open(this.dbName, this.version);
             idb.onsuccess = function (evt) {
                 idb.result.transaction([store], 'readonly')
                 .objectStore(store)
@@ -93,7 +94,7 @@
 
         this.delete = function (store, key, next) {
 
-            var idb = indexedDB.open(this.dbName, 1);
+            var idb = indexedDB.open(this.dbName, this.version);
             idb.onsuccess = function (evt) {
                 idb.result.transaction([store], 'readwrite')
                 .objectStore(store)
