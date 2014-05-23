@@ -1,6 +1,6 @@
 {
   "name": "indexed-db-cache",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Javascript object that provides an interface to caching objects in IndexDB. Uses UMD to wrap the object",
   "main": "index.js",
   "scripts": {

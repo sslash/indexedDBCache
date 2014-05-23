@@ -13,21 +13,6 @@
         opts = opts || {};
         this.version = opts.version || 1;
 
-        this._initStores = function (db, stores) {
-            stores.forEach(function(store) {
-                var opts = store.keyPath ? {keyPath : store.keyPath} : {};
-
-                 if (!opts.keyPath) {
-
-                     // generates keys, starting at 1
-                     opts.autoIncrement = true
-                 };
-
-                var store = db.createObjectStore(store.name, opts);
-            });
-        };
-
-
         this.init = function (dbName, stores) {
             var hasIDB = typeof window.indexedDB != 'undefined';
             if (!hasIDB) { throw new Error('Your browser does not support IndexDB'); }
@@ -37,10 +22,33 @@
             var idb = indexedDB.open(this.dbName, this.version);
 
             idb.onupgradeneeded = function(e) {
-                if ( e.oldVersion < 1 ) {
+                if ( e.oldVersion < this.version ) {
                     this._initStores(idb.result, stores || []);
                 }
             }.bind(this)
+
+            idb.onerror = function(event) {
+                console.log('IndexedDB errpor: ' + idb.errorCode);
+            };
+        };
+
+
+        this._initStores = function (db, stores) {
+            stores.forEach(function(store) {
+
+                if(!db.objectStoreNames.contains(store.name)) {
+
+                    var opts = store.keyPath ? {keyPath : store.keyPath} : {};
+
+                    if (!opts.keyPath) {
+
+                        // generates keys, starting at 1
+                        opts.autoIncrement = true
+                    };
+
+                    var store = db.createObjectStore(store.name, opts);
+                }
+            });
         };
 
 
