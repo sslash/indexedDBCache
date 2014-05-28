@@ -30,7 +30,7 @@ describe ('index', function () {
 
         this.cache.put(store.name, {sap : 'dap'}, function (key) {
             _this.cache.find(store.name, function (res) {
-                expect(res[0].value.sap).to.equal('dap');
+                expect(res[0].sap).to.equal('dap');
                 done();
             })
         })

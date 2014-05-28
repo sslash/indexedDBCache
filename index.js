@@ -79,7 +79,7 @@
                 .onsuccess = function (event) {
                     var cursor = event.target.result;
                     if (cursor) {
-                        items.push({key: cursor.key, value : cursor.value});
+                        items.push(cursor.value);
                         cursor.continue();
                     } else {
                         if ( next ) { next(items); }
