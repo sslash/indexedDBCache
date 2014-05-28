@@ -10,28 +10,6 @@ describe ('index', function () {
         this.cache.init(db, [store, keyStore]);
     });
 
-    afterEach(function(done) {
-        var _this = this;
-
-        this.cache.find(store.name, function (results) {
-            if ( results.length === 0 ) {
-                done();
-            }else {
-                deleteAllEntries(store.name, results);
-            }
-        });
-
-        function deleteAllEntries(storeName, results) {
-            var i = results.length;
-            results.forEach(function(res) {
-                _this.cache.delete (storeName, res.key, function () {
-                    if ( --i === 0 ) { done(); }
-                });
-            });
-        }
-    });
-
-
     it ( 'should delete', function (done) {
         var _this = this;
 
@@ -51,7 +29,6 @@ describe ('index', function () {
         var _this = this;
 
         this.cache.put(store.name, {sap : 'dap'}, function (key) {
-
             _this.cache.find(store.name, function (res) {
                 expect(res[0].value.sap).to.equal('dap');
                 done();

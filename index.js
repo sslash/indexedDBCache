@@ -68,11 +68,11 @@
 
 
         this.find = function (store, next) {
+            if ( !store ) return next({err: 'Store was undefined'});
             var idb = indexedDB.open(this.dbName, this.version);
 
             idb.onsuccess = function(evt) {
                 var items = [];
-
                  idb.result.transaction([store], 'readwrite')
                 .objectStore(store)
                 .openCursor(IDBKeyRange.lowerBound(0), 'next')
@@ -86,6 +86,10 @@
                     }
                 }
             }
+
+            idb.onerror = function(event) {
+                console.log('IndexedDB error on find: ' + idb.errorCode);
+            };
         };
 
         this.findOne = function (store, key, next) {
